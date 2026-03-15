@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run OWASP ZAP Scan
+      - name: Run OWASP ZAP Baseline Scan
         run: |
           docker run --user root \
           -v $(pwd):/zap/wrk/:rw \
@@ -24,7 +24,8 @@ jobs:
           -t https://sauce-demo.myshopify.com \
           -r zap-report.html \
           -J zap-report.json \
-          -w zap-report.md
+          -w zap-report.md \
+          -I
 
       - name: Upload HTML Report
         uses: actions/upload-artifact@v4
