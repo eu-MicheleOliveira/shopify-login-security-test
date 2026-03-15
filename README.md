@@ -1,5 +1,7 @@
 # Web Security Test – Shopify Demo Login
 
+![Security Scan](https://github.com/eu-MicheleOliveira/shopify-login-security-test/actions/workflows/zap-scan.yml/badge.svg)
+
 Este repositório contém um experimento de segurança realizado em uma página de login de demonstração pública do Shopify.
 
 
