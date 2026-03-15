@@ -15,13 +15,30 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run OWASP ZAP Baseline Scan
-        uses: zaproxy/action-baseline@v0.12.0
-        with:
-          target: 'https://sauce-demo.myshopify.com'
+      - name: Run OWASP ZAP Full Scan
+        run: |
+          docker run -v $(pwd):/zap/wrk/:rw \
+          ghcr.io/zaproxy/zaproxy:stable \
+          zap-baseline.py \
+          -t https://sauce-demo.myshopify.com \
+          -r zap-report.html \
+          -J zap-report.json \
+          -w zap-report.md
 
-      - name: Upload ZAP Report
+      - name: Upload HTML Report
         uses: actions/upload-artifact@v4
         with:
-          name: zap-report
-          path: report_html.html
+          name: zap-html-report
+          path: zap-report.html
+
+      - name: Upload JSON Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-json-report
+          path: zap-report.json
+
+      - name: Upload Markdown Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-md-report
+          path: zap-report.md
