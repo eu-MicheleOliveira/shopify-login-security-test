@@ -44,3 +44,10 @@ jobs:
         with:
           name: zap-md-report
           path: zap-report.md
+      - name: Commit reports
+        run:
+         git config --global user.name "github-actions"
+         git config --global user.email "actions@github.com"
+         git add reports/*
+         git commit -m "update security reports" || echo "no changes"
+         git push

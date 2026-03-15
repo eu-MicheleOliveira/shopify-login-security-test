@@ -42,13 +42,11 @@ reports/last-zap-report.md
 
 ## Security Dashboard
 
-Security Score:
+[View latest score](reports/security-score.md)
 
-![score](reports/security-score.md)
+### Vulnerability Distribution
 
-Vulnerability Distribution
-
-![chart](reports/vulnerability-chart.png)
+![Vulnerability Chart](reports/vulnerability-chart.png)
 
 Pipeline Status
 
