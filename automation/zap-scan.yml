@@ -1,16 +1,63 @@
-name: ZAP Security Scan
+name: Security Scan - OWASP ZAP
 
-on: [push]
+on:
+  push:
+    branches: [ main ]
 
 jobs:
   zap_scan:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
-      - name: ZAP Baseline Scan
-        uses: zaproxy/action-baseline@v0.10.0
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run ZAP Baseline Scan
+        run: |
+          docker run --user root \
+          -v $(pwd):/zap/wrk/:rw \
+          ghcr.io/zaproxy/zaproxy:stable \
+          zap-baseline.py \
+          -t https://sauce-demo.myshopify.com \
+          -r zap-report.html \
+          -J zap-report.json \
+          -w zap-report.md \
+          -I
+
+      - name: Save report for repository dashboard
+        run: |
+          mkdir -p reports
+          cp zap-report.md reports/last-zap-report.md
+
+      - name: Upload HTML Report
+        uses: actions/upload-artifact@v4
         with:
-          target: 'https://sauce-demo.myshopify.com'
+          name: zap-html-report
+          path: zap-report.html
+
+      - name: Upload JSON Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-json-report
+          path: zap-report.json
+
+      - name: Upload Markdown Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-md-report
+          path: zap-report.md
+
+      - name: Install Python deps
+        run: pip install matplotlib requests
+
+      - name: Generate Security Score
+        run: python scripts/security_score.py
+
+      - name: Generate Vulnerability Chart
+        run: python scripts/vuln_chart.py
+
+      - name: Run Fuzzing Tests
+        run: python scripts/fuzz_login.py

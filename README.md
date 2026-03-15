@@ -25,3 +25,31 @@ O objetivo era avaliar a robustez do endpoint de autenticação contra entradas 
 ## Objetivo
 
 Demonstração de metodologia de pesquisa e teste em segurança educacional.
+
+## Automated Security Scan
+
+Automated baseline scans are executed using OWASP ZAP.
+
+Reports generated:
+
+- HTML security report
+- JSON machine-readable report
+- Markdown vulnerability report
+
+Latest report:
+
+reports/last-zap-report.md
+
+## Security Dashboard
+
+Security Score:
+
+![score](reports/security-score.md)
+
+Vulnerability Distribution
+
+![chart](reports/vulnerability-chart.png)
+
+Pipeline Status
+
+![pipeline](https://github.com/eu-MicheleOliveira/shopify-login-security-test/actions/workflows/zap-scan.yml/badge.svg)
