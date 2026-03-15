@@ -15,9 +15,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run OWASP ZAP Full Scan
+      - name: Run OWASP ZAP Scan
         run: |
-          docker run -v $(pwd):/zap/wrk/:rw \
+          docker run --user root \
+          -v $(pwd):/zap/wrk/:rw \
           ghcr.io/zaproxy/zaproxy:stable \
           zap-baseline.py \
           -t https://sauce-demo.myshopify.com \
